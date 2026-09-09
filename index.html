@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" style="margin: 0; padding: 0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <canvas
+      id="myCanvas"
+      style="border: 1px solid #000000"
+      display="block"
+    ></canvas>
+    <script>
+      "use strict";
+      addEventListener("load", (event) => {
+        var canvas = document.getElementById("myCanvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var context = canvas.getContext("2d");
+
+        var SWING_X_POS = window.innerWidth * 0.1;
+
+        requestAnimationFrame(mainLoop);
+        function mainLoop() {
+          update();
+          draw();
+        }
+
+        function update() {}
+
+        function draw() {
+          const ground_pos = { X: SWING_X_POS, Y: window.innerHeight * 0.9 };
+          const cp_1 = {
+            X: SWING_X_POS,
+            Y: ground_pos.Y - 200,
+          };
+          const cp_3 = {
+            X: SWING_X_POS + SWING_X_POS * 2.5,
+            Y: ground_pos.Y - 200,
+          };
+          // Place tip of curve directly in between the ground points
+          const cp_2 = {
+            X: (cp_1.X + cp_3.X) / 2,
+            Y: window.innerHeight * 0.2,
+          };
+          // Background Color
+          context.fillStyle = "white";
+          context.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+          // Grass
+          context.fillStyle = "green";
+          context.fillRect(
+            0,
+            window.innerHeight - window.innerHeight * 0.1,
+            window.innerWidth,
+            window.innerHeight * 0.1,
+          );
+
+          // Swing Frame
+          context.save();
+          context.lineWidth = 10;
+          context.strokeStyle = "#8C7051";
+
+          context.beginPath();
+
+          // Left Leg
+          context.save();
+          context.moveTo(cp_1.X, cp_1.Y);
+          context.lineTo(cp_2.X, cp_2.Y);
+          context.lineTo(cp_3.X, cp_3.Y);
+          context.stroke();
+
+          context.beginPath();
+          context.bezierCurveTo(cp_1.X, cp_1.Y, cp_2.X, cp_2.Y, cp_3.X, cp_3.Y);
+          context.stroke();
+          context.restore();
+
+          // MARK: Uncomment to Bezier Curve Visualize control points
+          context.fillStyle = "red";
+          context.beginPath();
+          context.arc(cp_1.X, cp_1.Y, 8, 0, 2 * Math.PI);
+          context.fill();
+
+          context.fillStyle = "green";
+          context.beginPath();
+          context.arc(cp_2.X, cp_2.Y, 8, 0, 2 * Math.PI);
+          context.fill();
+
+          context.fillStyle = "blue";
+          context.beginPath();
+          context.arc(cp_3.X, cp_3.Y, 8, 0, 2 * Math.PI);
+          context.fill();
+        }
+      });
+    </script>
+  </body>
+</html>
