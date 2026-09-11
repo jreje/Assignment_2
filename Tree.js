@@ -34,6 +34,7 @@ Tree.prototype.drawBranch = function (length, angle, color) {
   // Angle the branch. Maybe make it random angles
   this.context.fillStyle = BROWN;
   this.context.rotate(angle);
+  // Branches sway as well
   const swayAngle = Math.sin(this.time) * this.maxSwayAngle * (Math.PI / 180);
   this.context.rotate(swayAngle);
   this.context.fillRect(-12.5, -length, 25, length);
