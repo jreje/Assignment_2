@@ -22,6 +22,7 @@ function Tree(context, x, y, trunkHeight, numBranches) {
   }
 }
 
+// TODO: Add callback for when mouse touches branch
 Tree.prototype.drawBranch = function (length, angle, color) {
   this.context.save();
   /* // For debugging. Moving Point of Branch
@@ -44,6 +45,7 @@ Tree.prototype.drawBranch = function (length, angle, color) {
   this.drawFlower(color);
   this.context.restore();
 };
+
 Tree.prototype.drawTrunk = function () {
   this.context.save();
   this.context.fillStyle = BROWN;
@@ -96,5 +98,4 @@ Tree.prototype.draw = function () {
 
 Tree.prototype.update = function () {
   this.time += this.windSpeed;
-  console.log(`wind angle: ${this.windAngle}`);
 };
