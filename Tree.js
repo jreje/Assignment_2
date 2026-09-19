@@ -4,18 +4,19 @@ function Tree(context, x, y, trunkHeight, numBranches) {
   this.context = context;
   this.posX = x || 100;
   this.posY = y || 100;
-  this.trunkHeight = trunkHeight || 400;
+  this.trunkHeight = trunkHeight || 300;
   this.numBranches = numBranches || 8;
   this.time = Math.random();
-  this.windSpeed = 0.01;
-  // 10 degrees
-  this.maxSwayAngle = 10;
+  this.windSpeed = 0.001;
+  // 20 degrees
+  this.maxSwayAngle = 20;
+  this.maxBranchSwayAngle = 60;
 
   // Generate Branches, initial angles, and Colors once
   this.branches = [];
   for (var i = 0; i < this.numBranches; i++) {
     this.branches.push({
-      length: Math.random() * 251 + 200,
+      length: Math.random() * 151 + 100,
       angle: (Math.random() * 180 - 90) * (Math.PI / 180),
       color: flowerColors[Math.floor(Math.random() * 4)],
     });
@@ -36,7 +37,7 @@ Tree.prototype.drawBranch = function (length, angle, color) {
   this.context.fillStyle = BROWN;
   this.context.rotate(angle);
   // Branches sway as well
-  const swayAngle = Math.sin(this.time) * this.maxSwayAngle * (Math.PI / 180);
+  swayAngle = Math.sin(this.time) * this.maxBranchSwayAngle * (Math.PI / 180);
   this.context.rotate(swayAngle);
   this.context.fillRect(-12.5, -length, 25, length);
   // Translate to tip of branch
@@ -96,6 +97,6 @@ Tree.prototype.draw = function () {
   this.context.restore();
 };
 
-Tree.prototype.update = function () {
-  this.time += this.windSpeed;
+Tree.prototype.update = function (timestep) {
+  this.time += this.windSpeed * timestep;
 };
